@@ -1,6 +1,10 @@
-#include"Header.h"
+#include<iostream>
+#include<string>
+#include<vector>
+using namespace std;
 
 int value=0;
+
 void ShowBG(vector<string> vec_str)
 {
 	for (size_t i = 0; i < vec_str.size(); i++)
@@ -14,58 +18,91 @@ void ShowBG(vector<string> vec_str)
 }
 void change(vector<string> vec_str)
 {
-	unsigned int number;
-	char tr;
-	
+	string str_number;
+	size_t number;
+
 	cout << "\n\n" << "Enter number for change:";
-	cin >> number;
-	tr = static_cast<char>(number+48);
+	cin >> str_number;
 
 	system("cls");
-		if (0 > number || number > 9)
+
+
+
+	// Input size check.
+	if (str_number.size() != 1)
+	{
+		cout << "Incorrect enter size! Try again!" << "\n";
+		ShowBG(vec_str);
+		change(vec_str);
+	}
+
+	// Number/character input check.
+	if (isdigit(str_number[0]))
+	{	
+		number = atoi(str_number.c_str());
+	}
+	else if (!(isdigit(str_number[0])))
+	{
+		cout << "You enterd a character, not a number!Try again!" << "\n";
+		ShowBG(vec_str);
+		change(vec_str);
+	}
+		
+		// Number value check.
+		if (9 < number || number <= 0)
 		{
 			system("cls");
 			cout << "Number must be less than 10 and greater than 0!Try again!" << "\n";
 			ShowBG(vec_str);
 			change(vec_str);
 		}
-		else if (vec_str[number - 1] == "X" || vec_str[number - 1] == "O")
+		else if (vec_str[number - 1] != "-")
 		{
 			cout << "This slot is already taken!Try again!" << "\n";
 			ShowBG(vec_str);
 			change(vec_str);
 		}
-		else if (value % 2 == 0)
+		//Slot change to X/O
+		else if (!(value % 2))
 		{
 			vec_str[number - 1] = "X";
 		}
-		else if (value % 2 == 1)
+		else if (value % 2)
 		{
 			vec_str[number - 1] = "O";
 		}
+
+		++value;
+		if (value!=9)
+		{
+			ShowBG(vec_str);
+			change(vec_str);
+		}
+		else
+		{
 		
-	value++;
-	ShowBG(vec_str);
-	change(vec_str);
+		}
 }
 int main()
 {
-	setlocale(LC_ALL,"Rus");
-	const int size = 9;
-	vector<string> battleGround;
-	for (size_t i = 0; i < size; i++)
-	{
-		battleGround.push_back("-");
-	}
+	setlocale(LC_ALL, "Rus");
+
+	vector<string> battleGround(9, "-");
+
 	ShowBG(battleGround);
 	change(battleGround);
-	
-	cout << "\n"<<"Game over"<<"\n";
+
+	cout << "\n"<<"Game over!"<<"\n";
 
 	return 0;
 }
 
 
 	
+
+	
+
+
+
 
 
